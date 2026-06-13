@@ -15,20 +15,18 @@ export default async function DashboardPage() {
     }
 
   return (
-  <main className="min-h-screen bg-gray-50">
-    <nav className="bg-williams-purple px-8 py-4 flex items-center justify-between">
-      <h1 className="text-white font-semibold text-lg">Williams Ski Network</h1>
-      <button 
-        type="button"
-        className="text-white text-sm hover:text-purple-200">
+  <main className="min-h-screen bg-white">
+    {/* Sign out button top right */}
+    <div className="flex justify-end p-4">
+      <button type="button" className="text-williams-purple text-sm">
         Sign Out
       </button>
-    </nav>
-    <div className="max-w-5xl mx-auto px-8 py-12">
-      <h2 className="text-2xl font-semibold text-gray-900">
-        Welcome, {user?.email}
-      </h2>
-      <p className="text-gray-500 mt-1">Williams Alpine & Nordic Ski Network</p>
+    </div>
+
+    {/* Centered content */}
+    <div className="flex flex-col items-center justify-center mt-32">
+      <h1 className="text-4xl font-bold text-williams-purple">Williams Ski Network</h1>
+      <p className="text-lg text-gray-500 mt-2">Welcome, {user?.email}</p>
     </div>
   </main>
 )
