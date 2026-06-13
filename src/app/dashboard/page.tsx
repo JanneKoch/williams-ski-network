@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import SignOutButton from '@/components/SignOutButton'
 
 export default async function DashboardPage() {
   
@@ -18,9 +19,7 @@ export default async function DashboardPage() {
   <main className="min-h-screen bg-white">
     {/* Sign out button top right */}
     <div className="flex justify-end p-4">
-      <button type="button" className="text-williams-purple text-sm">
-        Sign Out
-      </button>
+      <SignOutButton />
     </div>
 
     {/* Centered content */}
@@ -30,4 +29,4 @@ export default async function DashboardPage() {
     </div>
   </main>
 )
-}
+} 
