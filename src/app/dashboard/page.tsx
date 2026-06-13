@@ -15,15 +15,21 @@ export default async function DashboardPage() {
     }
 
   return (
-  <main className="p-8">
-    <h1 className="text-2xl font-semibold text-white">
-      Welcome, {user?.email}
-    </h1>
-    <button
-      type="button"
-      className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
-      Sign Out
-    </button>
+  <main className="min-h-screen bg-gray-50">
+    <nav className="bg-williams-purple px-8 py-4 flex items-center justify-between">
+      <h1 className="text-white font-semibold text-lg">Williams Ski Network</h1>
+      <button 
+        type="button"
+        className="text-white text-sm hover:text-purple-200">
+        Sign Out
+      </button>
+    </nav>
+    <div className="max-w-5xl mx-auto px-8 py-12">
+      <h2 className="text-2xl font-semibold text-gray-900">
+        Welcome, {user?.email}
+      </h2>
+      <p className="text-gray-500 mt-1">Williams Alpine & Nordic Ski Network</p>
+    </div>
   </main>
 )
 }
