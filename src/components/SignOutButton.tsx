@@ -7,22 +7,18 @@ export default function SignOutButton() {
   const router = useRouter()
 
   async function handleSignOut() {
-    // Step 1: create supabase client
     const supabase = createClient()
-    
-    // Step 2: call supabase sign out
     await supabase.auth.signOut()
-
-    // Step 3: redirect to /login
     router.push('/login')
+    router.refresh()
   }
 
   return (
-  <button
-    type="button"
-    onClick={handleSignOut}
-    className="rounded-lg border border-williams-purple text-williams-purple text-sm px-4 py-2 hover:bg-williams-purple hover:text-white transition-colors">
-    Sign Out
-  </button>
-)
+    <button
+      type="button"
+      onClick={handleSignOut}
+      className="rounded-lg border border-williams-purple text-williams-purple text-sm px-4 py-2 hover:bg-williams-purple hover:text-white transition-colors">
+      Sign Out
+    </button>
+  )
 }
