@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import OnboardingForm from '@/components/OnboardingForm'
 
 export default async function OnBoardingPage() {
   const supabase = await createClient()
@@ -16,7 +17,7 @@ export default async function OnBoardingPage() {
   if (alumniRow) redirect('/dashboard')
   return (
     <main className="min-h-screen bg-white">
-      <p>Onboarding form goes here</p>
+      <OnboardingForm userId={user.id} />
     </main>
   )
 }
