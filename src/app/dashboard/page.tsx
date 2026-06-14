@@ -6,15 +6,21 @@ export default async function DashboardPage() {
   
   // Step 1: create a supabase client
   const supabase = await createClient()
-  
   // Step 2: get the current user
   const { data: { user } } = await supabase.auth.getUser()
-
   // Step 3: if no user, redirect to /login
   if (!user) {
       redirect('/login')
     }
+  
+  const { data: alumniRow } = await supabase
+    .from('alumni')
+    .select('id')
+    .eq('user_id', user.id)
+    .single()
 
+  if (!alumniRow) redirect('/onboarding')
+    
   return (
   <main className="min-h-screen bg-white">
     {/* Sign out button top right */}
