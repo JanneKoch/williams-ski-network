@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import SignOutButton from '@/components/SignOutButton'
+import Navbar from '@/components/Navbar'
+
 
 export default async function DashboardPage() {
   
@@ -15,7 +16,7 @@ export default async function DashboardPage() {
   
   const { data: alumniRow } = await supabase
     .from('alumni')
-    .select('id')
+    .select('id, fullName')
     .eq('user_id', user.id)
     .single()
 
@@ -23,15 +24,12 @@ export default async function DashboardPage() {
     
   return (
   <main className="min-h-screen bg-white">
-    {/* Sign out button top right */}
-    <div className="flex justify-end p-4">
-      <SignOutButton />
-    </div>
+    <Navbar />
 
     {/* Centered content */}
     <div className="flex flex-col items-center justify-center mt-32">
       <h1 className="text-4xl font-bold text-williams-purple">Williams Ski Network</h1>
-      <p className="text-lg text-gray-500 mt-2">Welcome, {user?.email}</p>
+      <p className="text-lg text-gray-500 mt-2">Welcome, {alumniRow?.full_name}</p>
     </div>
   </main>
 )

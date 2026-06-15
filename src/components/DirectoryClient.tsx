@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import SignOutButton from '@/components/SignOutButton'
+import Navbar from '@/components/Navbar'
 
 type Alumni = {
   id: string
@@ -41,10 +41,7 @@ export default function DirectoryClient({ alumni }: Props) {
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="flex justify-end p-4">
-        <SignOutButton />
-      </div>
-
+        <Navbar />
       <div className="max-w-5xl mx-auto px-8 py-8">
         <h1 className="text-3xl font-bold text-williams-purple mb-8">
           Alumni Directory
