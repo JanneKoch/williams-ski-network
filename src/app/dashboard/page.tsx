@@ -29,7 +29,7 @@ export default async function DashboardPage() {
     {/* Centered content */}
     <div className="flex flex-col items-center justify-center mt-32">
       <h1 className="text-4xl font-bold text-williams-purple">Williams Ski Network</h1>
-      <p className="text-lg text-gray-500 mt-2">Welcome, {alumniRow?.full_name}</p>
+      <p className="text-lg text-gray-500 mt-2">Welcome, {alumniRow?.fullName}</p>
     </div>
   </main>
 )
