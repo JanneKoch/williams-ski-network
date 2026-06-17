@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Navbar from '@/components/Navbar'
+import ContactRequestModal from '@/components/ContactRequestModal'
 
 type Alumni = {
   id: string
@@ -30,6 +31,7 @@ export default function DirectoryClient({ alumni }: Props) {
   const [search, setSearch] = useState('')
   const [sport, setSport] = useState('')
   const [industry, setIndustry] = useState('')
+  const [selectedAlumni, setSelectedAlumni] = useState<Alumni | null>(null)
 
   const filtered = alumni.filter((person) => {
     const matchesSearch = search === '' ||
@@ -135,6 +137,7 @@ export default function DirectoryClient({ alumni }: Props) {
                   {person.willing_to_contact && (
                     <button
                       type="button"
+                      onClick={() => setSelectedAlumni(person)}
                       className="mt-1 w-full rounded-lg border border-williams-purple text-williams-purple text-xs py-1.5 hover:bg-williams-purple hover:text-white transition-colors">
                       Request Introduction
                     </button>
@@ -159,6 +162,14 @@ export default function DirectoryClient({ alumni }: Props) {
         )}
 
       </div>
+
+      {/* contact request modal - renders once, outside the grid */}
+      {selectedAlumni && (
+        <ContactRequestModal
+          alumni={selectedAlumni}
+          onClose={() => setSelectedAlumni(null)}
+        />
+      )}
     </main>
   )
 }
