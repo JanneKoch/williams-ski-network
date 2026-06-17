@@ -31,6 +31,7 @@ export default function OnboardingForm({ userId }: Props) {
   const [bio, setBio] = useState('')
   const [willingToContact, setWillingToContact] = useState(false)
   const [lookingFor, setLookingFor] = useState<string[]>([])
+  const [errors, setErrors] = useState<string>('')
 
   async function handleSubmit() {
     const supabase = createClient()
@@ -92,6 +93,7 @@ export default function OnboardingForm({ userId }: Props) {
         <div className="flex flex-col gap-4">
           <input
             type="text"
+            required
             placeholder="Full name e.g. Janne Koch"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
@@ -99,6 +101,7 @@ export default function OnboardingForm({ userId }: Props) {
           />
           <input
             type="number"
+            required
             placeholder="Graduation year e.g. 2026"
             value={gradYear}
             onChange={(e) => setGradYear(e.target.value)}
@@ -106,6 +109,7 @@ export default function OnboardingForm({ userId }: Props) {
           />
           <select
             value={sport}
+            required
             onChange={(e) => setSport(e.target.value)}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm">
             <option value="">Select sport</option>
@@ -115,10 +119,20 @@ export default function OnboardingForm({ userId }: Props) {
           </select>
           <button
             type="button"
-            onClick={() => setStep(2)}
+            onClick={() => {
+              if (!fullName || !gradYear || !sport) {
+                setErrors('Please fill in all fields before continuing.')
+                return
+              }
+              setErrors('')
+              setStep(2)
+            }}
             className="w-full rounded-lg bg-williams-purple text-white py-2 text-sm font-medium hover:bg-williams-light transition-colors">
             Next
           </button>
+          {errors && (
+            <p className="text-sm text-red-500 text-center">{errors}</p>
+          )}
         </div>
       </div>
     </main>
@@ -133,6 +147,7 @@ export default function OnboardingForm({ userId }: Props) {
         <div className="flex flex-col gap-4">
           <input
             type="text"
+            required
             placeholder="Company name"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
@@ -140,6 +155,7 @@ export default function OnboardingForm({ userId }: Props) {
           />
           <input
             type="text"
+            required
             placeholder="Role e.g. Analyst"
             value={role}
             onChange={(e) => setRole(e.target.value)}
@@ -147,6 +163,7 @@ export default function OnboardingForm({ userId }: Props) {
           />
           <select
             value={industry}
+            required
             onChange={(e) => setIndustry(e.target.value)}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm">
             <option value="">Select industry</option>
@@ -156,6 +173,7 @@ export default function OnboardingForm({ userId }: Props) {
           </select>
           <input
             type="text"
+            required
             placeholder="Location e.g. New York, NY"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
@@ -170,10 +188,20 @@ export default function OnboardingForm({ userId }: Props) {
           />
           <button
             type="button"
-            onClick={() => setStep(3)}
+            onClick={() => {
+              if (!company || !role || !industry || !location) {
+                setErrors('Please fill in all fields before continuing.')
+                return
+              }
+              setErrors('')
+              setStep(3)
+            }}
             className="w-full rounded-lg bg-williams-purple text-white py-2 text-sm font-medium hover:bg-williams-light transition-colors">
             Next
           </button>
+          {errors && (
+            <p className="text-sm text-red-500 text-center">{errors}</p>
+          )}
           <button
             type="button"
             onClick={() => setStep(1)}
@@ -196,6 +224,7 @@ export default function OnboardingForm({ userId }: Props) {
             <label key={option} className="flex items-center gap-3 text-sm text-gray-700 cursor-pointer">
               <input
                 type="checkbox"
+                required
                 checked={lookingFor.includes(option)}
                 onChange={(e) => {
                   if (e.target.checked) setLookingFor([...lookingFor, option])
@@ -207,10 +236,20 @@ export default function OnboardingForm({ userId }: Props) {
           ))}
           <button
             type="button"
-            onClick={() => setStep(3)}
+            onClick={() => {
+              if (lookingFor.length === 0) {
+                setErrors('Please select at least one option.')
+                return
+              }
+              setErrors('')
+              setStep(3)
+            }}
             className="w-full rounded-lg bg-williams-purple text-white py-2 text-sm font-medium hover:bg-williams-light transition-colors mt-4">
             Next
           </button>
+          {errors && (
+            <p className="text-sm text-red-500 text-center">{errors}</p>
+          )}
           <button
             type="button"
             onClick={() => setStep(1)}
