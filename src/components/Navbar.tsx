@@ -28,12 +28,14 @@ export default function Navbar() {
           </span>
         </Link>
       </div>
-
-      {/* right: sign out */}
-      <div>
+      
+      {/* right side */}
+      <div className="flex items-center gap-4">
+        <Link href="/profile" className="text-sm text-gray-600 hover:text-williams-purple transition-colors">
+        Edit Profile
+        </Link>
         <SignOutButton />
-      </div>
-
+      </div>  
     </nav>
   )
 }
