@@ -20,9 +20,10 @@ export default function ContactRequestModal({ alumni, onClose }: Props) {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const [studentName, setStudentName] = useState('')
+  const [studentEmail, setStudentEmail] = useState('')
 
   async function handleSubmit() {
-  if (!studentName || !blurb || !specificAsk) {
+  if (!studentName || !studentEmail || !blurb || !specificAsk) {
     setError('Please fill in all required fields.')
     return
   }
@@ -38,6 +39,7 @@ export default function ContactRequestModal({ alumni, onClose }: Props) {
   const { error: insertError } = await supabase.from('contact_requests').insert({
     student_user_id: user.id,
     student_name: studentName,
+    student_email: studentEmail,
     alumni_id: alumni.id,
     student_blurb: blurb,
     specific_ask: specificAsk
@@ -53,6 +55,7 @@ export default function ContactRequestModal({ alumni, onClose }: Props) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       studentName,
+      studentEmail,
       studentBlurb: blurb,
       specificAsk,
       alumniName: alumni.full_name
@@ -92,6 +95,13 @@ if (submitted) return (
           placeholder="Your name"
           value={studentName}
           onChange={(e) => setStudentName(e.target.value)}
+          className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+        />
+        <input
+          type="email"
+          placeholder="Your email"
+          value={studentEmail}
+          onChange={(e) => setStudentEmail(e.target.value)}
           className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
         />
         <textarea
