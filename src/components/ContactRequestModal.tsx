@@ -19,9 +19,10 @@ export default function ContactRequestModal({ alumni, onClose }: Props) {
   const [specificAsk, setSpecificAsk] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const [studentName, setStudentName] = useState('')
 
   async function handleSubmit() {
-  if (!blurb || !specificAsk) {
+  if (!studentName || !blurb || !specificAsk) {
     setError('Please fill in all required fields.')
     return
   }
@@ -36,6 +37,7 @@ export default function ContactRequestModal({ alumni, onClose }: Props) {
 
   const { error: insertError } = await supabase.from('contact_requests').insert({
     student_user_id: user.id,
+    student_name: studentName,
     alumni_id: alumni.id,
     student_blurb: blurb,
     specific_ask: specificAsk
@@ -46,6 +48,17 @@ export default function ContactRequestModal({ alumni, onClose }: Props) {
     return
   }
 
+  await fetch('/api/notify-admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      studentName,
+      studentBlurb: blurb,
+      specificAsk,
+      alumniName: alumni.full_name
+    })
+  })
+  
   setSubmitted(true)
 }
 
@@ -74,6 +87,13 @@ if (submitted) return (
         Request introduction to {alumni.full_name}
       </h1>
       <div className="flex flex-col gap-4">
+        <input
+          type="text"
+          placeholder="Your name"
+          value={studentName}
+          onChange={(e) => setStudentName(e.target.value)}
+          className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+        />
         <textarea
           placeholder="Tell them a bit about yourself..."
           value={blurb}
