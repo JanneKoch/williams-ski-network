@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
 
 type ContactRequest = {
   id: string
@@ -12,8 +13,8 @@ type ContactRequest = {
   status: string
   created_at: string
   alumni: {
-    full_name: string
-    contact_email: string
+  full_name: string
+  contact_email: string
   }
 }
 
@@ -22,6 +23,7 @@ type Props = {
 }
 
 export default function AdminRequestsClient({ requests }: Props) {
+  const router = useRouter()
   const [sendingId, setSendingId] = useState<string | null>(null)
 
   async function handleSend(request: ContactRequest) {
@@ -43,6 +45,7 @@ export default function AdminRequestsClient({ requests }: Props) {
     })
 
     setSendingId(null)
+    router.refresh()
   }
 
   return (

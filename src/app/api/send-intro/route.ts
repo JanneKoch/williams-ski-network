@@ -15,8 +15,10 @@ export async function POST(request: NextRequest) {
     specificAsk
   } = await request.json()
 
+  console.log('send-intro called with:', { requestId, alumniEmail, alumniName })
+
   // Step 1: send email to the alumni
-  await resend.emails.send({
+  const { data, error: emailError } = await resend.emails.send({
     from: 'onboarding@resend.dev',
     to: alumniEmail,
     subject: `Williams Ski Network — Introduction Request`,
@@ -37,12 +39,23 @@ export async function POST(request: NextRequest) {
     `
   })
 
+  if (emailError) {
+    console.error('Resend error:', emailError)
+    return NextResponse.json({ success: false, error: emailError }, { status: 500 })
+  }
+
+  console.log('Resend success:', data)
+
   // Step 2: mark the request as approved
   const supabase = await createClient()
-  await supabase
+  const { error: updateError } = await supabase
     .from('contact_requests')
     .update({ status: 'approved' })
     .eq('id', requestId)
+
+  if (updateError) {
+    console.error('Supabase update error:', updateError)
+  }
 
   return NextResponse.json({ success: true })
 }
