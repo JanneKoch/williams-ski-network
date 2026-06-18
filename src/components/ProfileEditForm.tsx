@@ -48,6 +48,7 @@ export default function ProfileEditForm({ alumni }: Props) {
   const [linkedin, setLinkedin] = useState(alumni.linkedin ?? '')
   const [bio, setBio] = useState(alumni.bio ?? '')
   const [willingToContact, setWillingToContact] = useState(alumni.willing_to_contact ?? false)
+  const [contactEmail, setContactEmail] = useState(alumni.contact_email ?? '')
 
   async function handleSave() {
     if (!fullName || !gradYear || !sport || !company || !role || !industry || !location) {
@@ -142,6 +143,13 @@ export default function ProfileEditForm({ alumni }: Props) {
             placeholder="Location e.g. New York, NY"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          />
+          <input
+            type="email"
+            placeholder="Contact email"
+            value={contactEmail}
+            onChange={(e) => setContactEmail(e.target.value)}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
           />
           <input

@@ -32,6 +32,7 @@ export default function OnboardingForm({ userId }: Props) {
   const [willingToContact, setWillingToContact] = useState(false)
   const [lookingFor, setLookingFor] = useState<string[]>([])
   const [errors, setErrors] = useState<string>('')
+  const [contactEmail, setContactEmail] = useState('')
 
   async function handleSubmit() {
     const supabase = createClient()
@@ -45,6 +46,7 @@ export default function OnboardingForm({ userId }: Props) {
       role: role,
       industry: industry,
       location: location,
+      contact_email: contactEmail,
       linkedin: linkedin,
       bio: bio,
       willing_to_contact: willingToContact
@@ -180,6 +182,13 @@ export default function OnboardingForm({ userId }: Props) {
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
           />
           <input
+            type="email"
+            placeholder="Contact email (visible to admins for intros)"
+            value={contactEmail}
+            onChange={(e) => setContactEmail(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          />
+          <input
             type="text"
             placeholder="LinkedIn URL"
             value={linkedin}
@@ -189,7 +198,7 @@ export default function OnboardingForm({ userId }: Props) {
           <button
             type="button"
             onClick={() => {
-              if (!company || !role || !industry || !location) {
+              if (!company || !role || !industry || !location || !contactEmail) {
                 setErrors('Please fill in all fields before continuing.')
                 return
               }
