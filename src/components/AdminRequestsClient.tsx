@@ -1,8 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/utils/supabase/client'
-import { useRouter } from 'next/navigation'
 
 type ContactRequest = {
   id: string
@@ -13,8 +11,8 @@ type ContactRequest = {
   status: string
   created_at: string
   alumni: {
-  full_name: string
-  contact_email: string
+    full_name: string
+    contact_email: string
   }
 }
 
@@ -22,15 +20,14 @@ type Props = {
   requests: ContactRequest[]
 }
 
-export default function AdminRequestsClient({ requests }: Props) {
-  const router = useRouter()
+export default function AdminRequestsClient({ requests: initialRequests }: Props) {
+  const [requests, setRequests] = useState(initialRequests)
   const [sendingId, setSendingId] = useState<string | null>(null)
 
   async function handleSend(request: ContactRequest) {
     setSendingId(request.id)
 
-    // call the API route to send the email
-    await fetch('/api/send-intro', {
+    const res = await fetch('/api/send-intro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -44,8 +41,24 @@ export default function AdminRequestsClient({ requests }: Props) {
       })
     })
 
+    const data = await res.json()
+
+    if (data.success) {
+      // remove it from the visible list immediately
+      setRequests((prev) => prev.filter((r) => r.id !== request.id))
+    }
+
     setSendingId(null)
-    router.refresh()
+  }
+
+  async function handleReject(requestId: string) {
+    await fetch('/api/reject-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ requestId })
+    })
+
+    setRequests((prev) => prev.filter((r) => r.id !== requestId))
   }
 
   return (
@@ -56,7 +69,6 @@ export default function AdminRequestsClient({ requests }: Props) {
         {requests.map((req) => (
           <div key={req.id} className="rounded-xl border border-gray-200 p-5">
 
-            {/* header: who and status */}
             <div className="flex justify-between items-start mb-3">
               <div>
                 <p className="font-medium text-gray-900">
@@ -66,16 +78,11 @@ export default function AdminRequestsClient({ requests }: Props) {
                   {new Date(req.created_at).toLocaleDateString()}
                 </p>
               </div>
-              <span className={`text-xs px-2 py-1 rounded-md ${
-                req.status === 'approved' ? 'bg-green-50 text-green-700' :
-                req.status === 'rejected' ? 'bg-red-50 text-red-700' :
-                'bg-yellow-50 text-yellow-700'
-              }`}>
-                {req.status}
+              <span className="text-xs px-2 py-1 rounded-md bg-yellow-50 text-yellow-700">
+                pending
               </span>
             </div>
 
-            {/* student's info */}
             <div className="border-t border-gray-100 pt-3 flex flex-col gap-2 mb-4">
               <p className="text-sm text-gray-700">
                 <span className="font-medium">Background:</span> {req.student_blurb}
@@ -85,17 +92,28 @@ export default function AdminRequestsClient({ requests }: Props) {
               </p>
             </div>
 
-            {/* send button */}
-            <button
-              type="button"
-              onClick={() => handleSend(req)}
-              disabled={sendingId === req.id || req.status === 'approved'}
-              className="w-full rounded-lg bg-williams-purple text-white py-2 text-sm font-medium hover:bg-williams-light transition-colors disabled:opacity-50">
-              {sendingId === req.id ? 'Sending...' : req.status === 'approved' ? 'Already Sent' : 'Send to Alumni'}
-            </button>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => handleSend(req)}
+                disabled={sendingId === req.id}
+                className="flex-1 rounded-lg bg-williams-purple text-white py-2 text-sm font-medium hover:bg-williams-light transition-colors disabled:opacity-50">
+                {sendingId === req.id ? 'Sending...' : 'Send to Alumni'}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleReject(req.id)}
+                className="flex-1 rounded-lg border border-gray-300 text-gray-600 py-2 text-sm font-medium hover:bg-gray-50 transition-colors">
+                Cancel
+              </button>
+            </div>
 
           </div>
         ))}
+
+        {requests.length === 0 && (
+          <p className="text-gray-400 text-center py-12">No pending requests.</p>
+        )}
       </div>
     </div>
   )

@@ -19,6 +19,7 @@ export default async function AdminRequestPage() {
   const { data: requests } = await supabase
     .from('contact_requests')
     .select('*, alumni(full_name, contact_email)')
+    .eq('status', 'pending')
     .order('created_at', { ascending: false })
 
   return (
