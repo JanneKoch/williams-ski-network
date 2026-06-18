@@ -22,6 +22,7 @@ type Alumni = {
   role: string
   industry: string
   location: string
+  contact_email: string
   linkedin: string
   bio: string
   willing_to_contact: boolean
@@ -69,6 +70,7 @@ export default function ProfileEditForm({ alumni }: Props) {
         role: role,
         industry: industry,
         location: location,
+        contact_email: contactEmail,
         linkedin: linkedin,
         bio: bio,
         willing_to_contact: willingToContact
