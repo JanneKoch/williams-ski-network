@@ -33,28 +33,48 @@ export default function OnboardingForm({ userId }: Props) {
   const [lookingFor, setLookingFor] = useState<string[]>([])
   const [errors, setErrors] = useState<string>('')
   const [contactEmail, setContactEmail] = useState('')
+  const [year, setYear] = useState('') 
 
   async function handleSubmit() {
     const supabase = createClient()
-  
-    const { error } = await supabase.from('alumni').insert({
-      user_id: userId,
-      full_name: fullName,
-      grad_year: gradYear,
-      sport: sport,
-      company: company,
-      role: role,
-      industry: industry,
-      location: location,
-      contact_email: contactEmail,
-      linkedin: linkedin,
-      bio: bio,
-      willing_to_contact: willingToContact
-    })
 
-    if (error) {
-      console.error(error)
-      return
+    if (userType === 'student') {
+      const { error: insertError } = await supabase.from('team_members').insert({
+        user_id: userId,
+        full_name: fullName,
+        year: year,
+        sport: sport,
+        looking_for: lookingFor,
+        contact_email: contactEmail,
+        bio: bio,
+        status: 'pending'
+      })
+
+      if (insertError) {
+        console.error(insertError)
+        return
+      }
+    } else {
+      const { error: insertError } = await supabase.from('alumni').insert({
+        user_id: userId,
+        full_name: fullName,
+        grad_year: gradYear,
+        sport: sport,
+        company: company,
+        role: role,
+        industry: industry,
+        location: location,
+        contact_email: contactEmail,
+        linkedin: linkedin,
+        bio: bio,
+        willing_to_contact: willingToContact,
+        status: 'pending'
+      })
+
+      if (insertError) {
+        console.error(insertError)
+        return
+      }
     }
 
     router.push('/dashboard')
@@ -86,8 +106,8 @@ export default function OnboardingForm({ userId }: Props) {
     </main>
   )
 
-  // Step 1 — basic info (both alumni and students)
-  if (step === 1) return (
+  // Step 1a — basic info (alumni)
+  if (step === 1 && userType === 'alumni') return (
     <main className="min-h-screen bg-white">
       <div className="max-w-md mx-auto px-8 py-16">
         <p className="text-sm text-gray-400 mb-2">Step 1 of 3</p>
@@ -123,6 +143,62 @@ export default function OnboardingForm({ userId }: Props) {
             type="button"
             onClick={() => {
               if (!fullName || !gradYear || !sport) {
+                setErrors('Please fill in all fields before continuing.')
+                return
+              }
+              setErrors('')
+              setStep(2)
+            }}
+            className="w-full rounded-lg bg-williams-purple text-white py-2 text-sm font-medium hover:bg-williams-light transition-colors">
+            Next
+          </button>
+          {errors && (
+            <p className="text-sm text-red-500 text-center">{errors}</p>
+          )}
+        </div>
+      </div>
+    </main>
+  )
+
+  // Step 1b — basic info (student)
+  if (step === 1 && userType === 'student') return (
+    <main className="min-h-screen bg-white">
+      <div className="max-w-md mx-auto px-8 py-16">
+        <p className="text-sm text-gray-400 mb-2">Step 1 of 3</p>
+        <h1 className="text-2xl font-bold text-williams-purple mb-8">Basic Info</h1>
+        <div className="flex flex-col gap-4">
+          <input
+            type="text"
+            required
+            placeholder="Full name e.g. Janne Koch"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          />
+          <select
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+            <option value="">Select year</option>
+            <option value="Freshman">Freshman</option>
+            <option value="Sophomore">Sophomore</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+          </select>
+          <select
+            value={sport}
+            required
+            onChange={(e) => setSport(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm">
+            <option value="">Select sport</option>
+            <option value="Alpine">Alpine</option>
+            <option value="Nordic">Nordic</option>
+            <option value="Both">Both</option>
+          </select>
+          <button
+            type="button"
+            onClick={() => {
+              if (!fullName || !year || !sport) {
                 setErrors('Please fill in all fields before continuing.')
                 return
               }
@@ -183,7 +259,7 @@ export default function OnboardingForm({ userId }: Props) {
           />
           <input
             type="email"
-            placeholder="Contact email (visible to admins for intros)"
+            placeholder="Contact email (visible to admin only)"
             value={contactEmail}
             onChange={(e) => setContactEmail(e.target.value)}
             className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
@@ -243,6 +319,13 @@ export default function OnboardingForm({ userId }: Props) {
               {option}
             </label>
           ))}
+          <input
+            type="email"
+            placeholder="Contact email (visible to admin only)"
+            value={contactEmail}
+            onChange={(e) => setContactEmail(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          />
           <button
             type="button"
             onClick={() => {
@@ -270,8 +353,8 @@ export default function OnboardingForm({ userId }: Props) {
     </main>
   )
 
-  // Step 3 — bio + preferences + submit
-  if (step === 3) return (
+  // Step 3 — Alumni bio + preferences + submit
+  if (step === 3 && userType === 'alumni') return (
     <main className="min-h-screen bg-white">
       <div className="max-w-md mx-auto px-8 py-16">
         <p className="text-sm text-gray-400 mb-2">Step 3 of 3</p>
@@ -292,6 +375,36 @@ export default function OnboardingForm({ userId }: Props) {
             />
             I'm willing to be contacted by current students
           </label>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="w-full rounded-lg bg-williams-purple text-white py-2 text-sm font-medium hover:bg-williams-light transition-colors">
+            Complete Profile
+          </button>
+          <button
+            type="button"
+            onClick={() => setStep(2)}
+            className="w-full rounded-lg border border-gray-300 text-gray-600 py-2 text-sm font-medium hover:bg-gray-50 transition-colors">
+            Back
+          </button>
+        </div>
+      </div>
+    </main>
+  )
+
+  if (step === 3 && userType == 'student') return (
+    <main className="min-h-screen bg-white">
+      <div className="max-w-md mx-auto px-8 py-16">
+        <p className="text-sm text-gray-400 mb-2">Step 3 of 3</p>
+        <h1 className="text-2xl font-bold text-williams-purple mb-8">Almost done</h1>
+        <div className="flex flex-col gap-4">
+          <textarea
+            placeholder="Short bio (optional)"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            rows={4}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm resize-none"
+          />
           <button
             type="button"
             onClick={handleSubmit}
