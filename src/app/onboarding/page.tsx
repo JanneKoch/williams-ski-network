@@ -9,12 +9,19 @@ export default async function OnBoardingPage() {
   if (!user) redirect('/login')
     
   const { data: alumniRow } = await supabase
-    .from('alumni')
+  .from('alumni')
+  .select('id')
+  .eq('user_id', user.id)
+  .single()
+
+  const { data: teamMemberRow } = await supabase
+    .from('team_members')
     .select('id')
     .eq('user_id', user.id)
     .single()
 
-  if (alumniRow) redirect('/dashboard')
+  if (alumniRow || teamMemberRow) redirect('/dashboard')
+
   return (
     <main className="min-h-screen bg-white">
       <OnboardingForm userId={user.id} />
