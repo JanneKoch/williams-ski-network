@@ -12,6 +12,13 @@
   --font-mono: var(--font-geist-mono);
   --color-williams-purple: #500082;
   --color-williams-light: #7B2D8B;
+  --color-purple-dk: #280050;
+  --color-purple-darker: #1c0038;
+  --color-gold: #FFBE0A;
+  --color-magenta: #B1008E;
+  --color-orange: #FF7800;
+  --color-eyebrow: #9a3bc0;
+  --color-page-bg: #f6f3fb;
 }
 
 body {

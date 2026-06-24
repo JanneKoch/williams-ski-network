@@ -1,6 +1,20 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Zilla_Slab, Newsreader } from 'next/font/google'
+
+const zillaSlab = Zilla_Slab({
+  variable: '--font-slab',
+  weight: ['500', '600', '700'],
+  subsets: ['latin'],
+})
+
+const newsreader = Newsreader({
+  variable: '--font-serif-accent',
+  weight: ['400', '500'],
+  style: ['italic'],
+  subsets: ['latin'],
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${zillaSlab.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
