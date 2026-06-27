@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import Navbar from '@/components/Navbar'
+import DashboardClient from '@/components/DashboardClient'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -22,7 +22,7 @@ export default async function DashboardPage() {
 
   // if neither exists, they haven't onboarded yet
   if (!alumniRow && !teamMemberRow) redirect('/onboarding')
-  
+
   const { data: teamMembers } = await supabase
     .from('team_members')
     .select('*')
@@ -31,29 +31,20 @@ export default async function DashboardPage() {
 
   const status = alumniRow?.status ?? teamMemberRow?.status
   const displayName = alumniRow?.full_name ?? teamMemberRow?.full_name
-  const firstName = displayName?.split(' ')[0] 
+  const firstName = displayName?.split(' ')[0]
 
   if (status === 'pending') {
     return (
-      <main className="min-h-screen bg-white">
-        <Navbar />
-          <div className="flex flex-col items-center justify-center mt-32 text-center px-8">
-            <h1 className="text-2xl font-bold text-williams-purple mb-3">Almost there, {firstName}</h1>
-            <p className="text-gray-500">
-              Your profile is under review. We'll let you know once it's approved — usually within a day or two.
-            </p>
-          </div>
+      <main className="min-h-screen bg-white flex flex-col items-center justify-center text-center px-8">
+        <h1 className="text-2xl font-bold text-williams-purple mb-3">Almost there, {firstName}</h1>
+        <p className="text-gray-500">
+          Your profile is under review. We'll let you know once it's approved — usually within a day or two.
+        </p>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen bg-white">
-      <Navbar />
-      <div className="flex flex-col items-center justify-center mt-32">
-        <h1 className="text-4xl font-bold text-williams-purple">Williams Ski Network</h1>
-        <p className="text-lg text-gray-500 mt-2">Welcome, {firstName}</p>
-      </div>
-    </main>
+    <DashboardClient firstName={firstName ?? ''} teamMembers={teamMembers ?? []} />
   )
 }
