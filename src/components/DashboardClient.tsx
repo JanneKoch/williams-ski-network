@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
 
 type TeamMember = {
   id: string
@@ -61,6 +60,58 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
               Read the Blog
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* current team members */}
+      <section className="max-w-[1240px] mx-auto px-10 pt-16 pb-10">
+        <div className="flex items-end justify-between flex-wrap gap-3">
+          <div>
+            <div className="text-xs tracking-[.2em] font-bold text-eyebrow mb-2.5">THE TEAM</div>
+            <h2 className="font-[var(--font-slab)] font-bold text-[clamp(30px,3.6vw,46px)] tracking-tight text-[#241430] leading-none">
+              Current team members
+            </h2>
+          </div>
+          <Link href="/team" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
+            View full roster →
+          </Link>
+        </div>
+
+        <div className="flex gap-[18px] overflow-x-auto py-1.5 px-1 pb-[22px] mt-6" style={{ scrollSnapType: 'x mandatory' }}>
+          {teamMembers.map((person) => (
+            <div
+              key={person.id}
+              style={{ scrollSnapAlign: 'start' }}
+              className="flex-none w-[288px] bg-white border border-[#ece4f4] rounded-[10px] p-[22px] hover:-translate-y-1.5 hover:shadow-[0_22px_44px_rgba(80,0,130,.14)] hover:border-williams-purple transition-all duration-300"
+            >
+              <div className="flex items-center gap-3.5">
+                <div className="flex-none w-[50px] h-[50px] rounded-full bg-[#f0e7f9] flex items-center justify-center font-[var(--font-slab)] font-bold text-lg text-williams-purple">
+                  {getInitials(person.full_name)}
+                </div>
+                <div>
+                  <div className="font-[var(--font-slab)] font-semibold text-lg text-[#241430] leading-tight">
+                    {person.full_name}
+                  </div>
+                  <div className="text-[13px] text-[#8a7d9c] mt-0.5">
+                    {person.year} · {person.sport}
+                  </div>
+                </div>
+              </div>
+
+              <div className="h-px bg-[#f0eaf6] my-4.5" />
+
+              <div className="flex flex-wrap gap-1.5">
+                {person.looking_for?.map((item) => (
+                  <span
+                    key={item}
+                    className="inline-block bg-[#f4ecfb] text-[#7a2ba0] text-xs font-semibold px-3 py-1.5 rounded-full"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </main>
