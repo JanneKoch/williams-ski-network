@@ -67,10 +67,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <section className="max-w-[1240px] mx-auto px-10 pt-16 pb-10">
         <div className="flex items-end justify-between flex-wrap gap-3">
           <div>
-            <div className="text-xs tracking-[.2em] font-bold text-eyebrow mb-2.5">THE TEAM</div>
-            <h2 className="font-[var(--font-slab)] font-bold text-[clamp(30px,3.6vw,46px)] tracking-tight text-[#241430] leading-none">
-              Current team members
-            </h2>
+            <div className="text-[14px] tracking-[.2em] font-bold text-eyebrow mb-2.5">THE TEAM</div>
           </div>
           <Link href="/team" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
             View full roster →
