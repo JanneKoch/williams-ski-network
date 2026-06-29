@@ -67,7 +67,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <section className="max-w-[1240px] mx-auto px-10 pt-16 pb-10">
         <div className="flex items-end justify-between flex-wrap gap-3">
           <div>
-            <div className="text-[30px] tracking-[.2em] font-bold text-eyebrow mb-2.5">THE TEAM</div>
+            <div className="text-[20px] tracking-[.2em] font-bold text-eyebrow mb-2.5">THE TEAM</div>
           </div>
           <Link href="/team" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
             View full roster →
@@ -116,10 +116,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
   <div className="max-w-[1240px] mx-auto px-10 py-20">
     <div className="flex items-end justify-between flex-wrap gap-3 mb-8">
       <div>
-        <div className="text-sm tracking-[.2em] font-bold text-eyebrow mb-2.5">FROM THE BLOG</div>
-        <h2 className="font-[var(--font-slab)] font-bold text-[clamp(30px,3.6vw,46px)] tracking-tight text-[#241430] leading-none">
-          Recent dispatches
-        </h2>
+        <div className="text-[20px] tracking-[.2em] font-bold text-eyebrow mb-2.5">FROM THE BLOG</div>
       </div>
       <Link href="#" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
         All posts →
@@ -155,10 +152,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
 <section className="max-w-[1240px] mx-auto px-10 py-16">
   <div className="flex items-end justify-between flex-wrap gap-3 mb-6">
     <div>
-      <div className="text-sm tracking-[.2em] font-bold text-eyebrow mb-2.5">GALLERY</div>
-      <h2 className="font-[var(--font-slab)] font-bold text-[clamp(30px,3.6vw,46px)] tracking-tight text-[#241430] leading-none">
-        The season, in pictures
-      </h2>
+      <div className="text-[20px] tracking-[.2em] font-bold text-eyebrow mb-2.5">GALLERY</div>
     </div>
     <span className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5 cursor-pointer">
       + Add photos
@@ -192,7 +186,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <div className="font-[var(--font-slab)] font-bold text-[46px] leading-[.95] tracking-tight">Williams</div>
       <div className="font-[var(--font-serif-accent)] italic text-[26px] text-gold mt-0.5">Ski Network</div>
       <p className="text-sm text-[#b89fd6] mt-4 max-w-[280px] leading-relaxed">
-        An alumni network for Williams College ski team Ephs — past, present, and future.
+        An alumni network for the Williams College Ski Team Ephs — past, present, and future.
       </p>
     </div>
     <div>
@@ -214,7 +208,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
   </div>
   <div className="relative max-w-[1240px] mx-auto mt-12 pt-[22px] border-t border-white/[.12] flex justify-between flex-wrap gap-2.5">
     <span className="text-[13px] text-[#9a7cc4]">© 2026 Williams Ski Network · Not an official Williams College site</span>
-    <span className="font-[var(--font-serif-accent)] italic text-sm text-gold">Invigorated by connectedness.</span>
+    <span className="font-[var(--font-serif-accent)] italic text-sm text-gold">Stack Skulls.</span>
   </div>
 </footer>
     </main>
