@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useRef } from 'react'
 
 type TeamMember = {
   id: string
@@ -20,10 +21,24 @@ function getInitials(name: string) {
 }
 
 export default function DashboardClient({ firstName, teamMembers }: Props) {
+  const headerRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    function onScroll() {
+      if (!headerRef.current) return
+      headerRef.current.classList.toggle('scrolled', window.scrollY > 40)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <main className="bg-page-bg min-h-screen overflow-x-hidden">
-      {/* header */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-10 py-[18px] bg-purple-dk/0 transition-colors duration-300">
+      <header
+        ref={headerRef}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-10 py-[18px] transition-all duration-300 [&.scrolled]:bg-purple-dk [&.scrolled]:shadow-[0_1px_0_rgba(255,255,255,.08)] [&.scrolled]:[backdrop-filter:blur(10px)]"
+      >
         <nav className="flex items-center gap-7">
           <Link href="/directory" className="text-sm text-white/85 hover:text-white transition-opacity">Directory</Link>
           <Link href="#" className="text-sm text-white/85 hover:text-white transition-opacity">Blog</Link>
