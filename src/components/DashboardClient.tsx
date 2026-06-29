@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
+import SignOutButton from '@/components/SignOutButton' 
 
 type TeamMember = {
   id: string
@@ -50,12 +51,17 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
         </Link>
         <div className="flex items-center gap-[18px]">
           <Link href="/profile" className="text-sm text-white/85 hover:text-white transition-opacity">Edit Profile</Link>
-          <Link href="/login" className="text-[13px] font-semibold text-white px-[18px] py-[9px] border-[1.5px] border-white/50 rounded-full hover:bg-white hover:text-purple-dk transition-all">Sign Out</Link>
+          <SignOutButton />
         </div>
       </header>
 
       {/* hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#3a0068] via-purple-dk to-purple-darker px-10 pt-40 pb-24">
+        {/* floating blobs */}
+        <div className="absolute top-[8%] right-[12%] w-[170px] h-[150px] bg-gold opacity-[.16] pointer-events-none rounded-[47%_53%_62%_38%/_56%_47%_53%_44%] animate-[float_9s_ease-in-out_infinite]" />
+        <div className="absolute top-[48%] right-[5%] w-[90px] h-[84px] bg-magenta opacity-30 pointer-events-none rounded-[60%_40%_47%_53%/_45%_55%_45%_55%] animate-[float2_11s_ease-in-out_infinite]" />
+        <div className="absolute bottom-[-30px] left-[6%] w-[130px] h-[118px] bg-orange opacity-[.16] pointer-events-none rounded-[52%_48%_40%_60%/_50%_56%_44%_50%] animate-[float_13s_ease-in-out_infinite]" />
+        <div className="absolute top-[22%] left-[3%] w-[54px] h-[50px] bg-gold opacity-[.22] pointer-events-none rounded-[50%_50%_44%_56%/_56%_44%_56%_44%] animate-[float2_8s_ease-in-out_infinite]" />
         <div className="relative max-w-[1240px] mx-auto">
           <div className="inline-flex items-center gap-2.5 text-xs tracking-[.22em] font-semibold text-gold mb-6">
             <span className="w-[26px] h-[2px] bg-gold inline-block" />
@@ -217,7 +223,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <h4 className="text-xs tracking-[.16em] font-bold text-[#9a7cc4] mb-4">ACCOUNT</h4>
       <div className="flex flex-col gap-3">
         <Link href="/profile" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Edit Profile</Link>
-        <Link href="/login" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Sign Out</Link>
+        <SignOutButton />
       </div>
     </div>
   </div>
