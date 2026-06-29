@@ -67,7 +67,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <section className="max-w-[1240px] mx-auto px-10 pt-16 pb-10">
         <div className="flex items-end justify-between flex-wrap gap-3">
           <div>
-            <div className="text-[14px] tracking-[.2em] font-bold text-eyebrow mb-2.5">THE TEAM</div>
+            <div className="text-[30px] tracking-[.2em] font-bold text-eyebrow mb-2.5">THE TEAM</div>
           </div>
           <Link href="/team" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
             View full roster →
@@ -111,6 +111,112 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
           ))}
         </div>
       </section>
+      {/* blog — placeholder until blog feature is built */}
+<section className="bg-white border-t border-b border-[#eee3f5] mt-6">
+  <div className="max-w-[1240px] mx-auto px-10 py-20">
+    <div className="flex items-end justify-between flex-wrap gap-3 mb-8">
+      <div>
+        <div className="text-sm tracking-[.2em] font-bold text-eyebrow mb-2.5">FROM THE BLOG</div>
+        <h2 className="font-[var(--font-slab)] font-bold text-[clamp(30px,3.6vw,46px)] tracking-tight text-[#241430] leading-none">
+          Recent dispatches
+        </h2>
+      </div>
+      <Link href="#" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
+        All posts →
+      </Link>
+    </div>
+
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+      {[
+        { cat: 'TRIP REPORT', time: '6 min read', title: 'Chasing Powder in the Bugaboos', byline: "Sarah Mitchell '18 · Mar 12" },
+        { cat: 'CAREER', time: '4 min read', title: 'From the Start Gate to the Boardroom', byline: "Tom Berg '10 · Feb 28" },
+        { cat: 'COACHING', time: '5 min read', title: 'Why I Came Back to Coach the Ephs', byline: "Cooper Iacobelli '26 · Feb 14" },
+      ].map((post) => (
+        <div key={post.title} className="flex flex-col hover:-translate-y-1 transition-transform duration-300 cursor-pointer">
+          <div className="aspect-[16/10] rounded-lg bg-[repeating-linear-gradient(135deg,#efe9f6_0_12px,#e6dcf1_12px_24px)] flex items-center justify-center">
+            <span className="font-mono text-[11px] tracking-[.1em] text-[#9b86b8]">{post.cat} · IMAGE</span>
+          </div>
+          <div className="flex items-center gap-2.5 mt-4">
+            <span className="text-[11px] font-bold tracking-[.1em] text-eyebrow">{post.cat}</span>
+            <span className="w-[3px] h-[3px] rounded-full bg-[#c9bcda]" />
+            <span className="text-[13px] text-[#8a7d9c]">{post.time}</span>
+          </div>
+          <h3 className="font-[var(--font-slab)] font-semibold text-[22px] leading-tight text-[#241430] tracking-tight mt-2">
+            {post.title}
+          </h3>
+          <div className="text-sm text-[#6b6477] mt-auto pt-2">{post.byline}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* gallery — placeholder until photo upload is built */}
+<section className="max-w-[1240px] mx-auto px-10 py-16">
+  <div className="flex items-end justify-between flex-wrap gap-3 mb-6">
+    <div>
+      <div className="text-sm tracking-[.2em] font-bold text-eyebrow mb-2.5">GALLERY</div>
+      <h2 className="font-[var(--font-slab)] font-bold text-[clamp(30px,3.6vw,46px)] tracking-tight text-[#241430] leading-none">
+        The season, in pictures
+      </h2>
+    </div>
+    <span className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5 cursor-pointer">
+      + Add photos
+    </span>
+  </div>
+
+  <div className="grid grid-cols-4 auto-rows-[150px] gap-3">
+    {[
+      { label: 'GROUP PHOTO 2026', cols: 2, rows: 2 },
+      { label: 'PODIUM · NCAAs', cols: 1, rows: 1 },
+      { label: 'NORDIC LOOP', cols: 1, rows: 1 },
+      { label: 'ALPINE GS', cols: 2, rows: 1 },
+      { label: 'TRAILHEAD', cols: 2, rows: 1 },
+    ].map((tile) => (
+      <div
+        key={tile.label}
+        style={{ gridColumn: `span ${tile.cols}`, gridRow: `span ${tile.rows}` }}
+        className="rounded-lg overflow-hidden flex items-end p-4 cursor-pointer hover:scale-[.985] transition-transform duration-300 bg-[repeating-linear-gradient(135deg,#efe9f6_0_14px,#e6dcf1_14px_28px)]"
+      >
+        <span className="font-mono text-[11px] tracking-[.1em] text-[#9b86b8]">{tile.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+{/* footer */}
+<footer className="bg-purple-dk text-white px-10 pt-[72px] pb-10 relative overflow-hidden">
+  <div className="absolute bottom-[-60px] right-[-30px] w-[200px] h-[180px] bg-[#3a0a63] opacity-50 rounded-[47%_53%_62%_38%/_56%_47%_53%_44%] pointer-events-none" />
+  <div className="relative max-w-[1240px] mx-auto grid grid-cols-[1.4fr_1fr_1fr] gap-10 items-start">
+    <div>
+      <div className="font-[var(--font-slab)] font-bold text-[46px] leading-[.95] tracking-tight">Williams</div>
+      <div className="font-[var(--font-serif-accent)] italic text-[26px] text-gold mt-0.5">Ski Network</div>
+      <p className="text-sm text-[#b89fd6] mt-4 max-w-[280px] leading-relaxed">
+        An alumni network for Williams College ski team Ephs — past, present, and future.
+      </p>
+    </div>
+    <div>
+      <h4 className="text-xs tracking-[.16em] font-bold text-[#9a7cc4] mb-4">EXPLORE</h4>
+      <div className="flex flex-col gap-3">
+        <Link href="/directory" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Directory</Link>
+        <Link href="#" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Blog</Link>
+        <Link href="#" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Events</Link>
+        <Link href="#" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Gallery</Link>
+      </div>
+    </div>
+    <div>
+      <h4 className="text-xs tracking-[.16em] font-bold text-[#9a7cc4] mb-4">ACCOUNT</h4>
+      <div className="flex flex-col gap-3">
+        <Link href="/profile" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Edit Profile</Link>
+        <Link href="/login" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Sign Out</Link>
+      </div>
+    </div>
+  </div>
+  <div className="relative max-w-[1240px] mx-auto mt-12 pt-[22px] border-t border-white/[.12] flex justify-between flex-wrap gap-2.5">
+    <span className="text-[13px] text-[#9a7cc4]">© 2026 Williams Ski Network · Not an official Williams College site</span>
+    <span className="font-[var(--font-serif-accent)] italic text-sm text-gold">Invigorated by connectedness.</span>
+  </div>
+</footer>
     </main>
   )
 }
