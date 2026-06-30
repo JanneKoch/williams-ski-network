@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
 import SignOutButton from '@/components/SignOutButton' 
+import SiteHeader from './SiteHeader'
 
 type TeamMember = {
   id: string
@@ -22,38 +22,11 @@ function getInitials(name: string) {
 }
 
 export default function DashboardClient({ firstName, teamMembers }: Props) {
-  const headerRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    function onScroll() {
-      if (!headerRef.current) return
-      headerRef.current.classList.toggle('scrolled', window.scrollY > 40)
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   return (
     <main className="bg-page-bg min-h-screen overflow-x-hidden">
-      <header
-        ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-10 py-[18px] transition-all duration-300 [&.scrolled]:bg-purple-dk [&.scrolled]:shadow-[0_1px_0_rgba(255,255,255,.08)] [&.scrolled]:[backdrop-filter:blur(10px)]"
-      >
-        <nav className="flex items-center gap-7">
-          <Link href="/directory" className="text-sm text-white/85 hover:text-white transition-opacity">Directory</Link>
-          <Link href="#" className="text-sm text-white/85 hover:text-white transition-opacity">Blog</Link>
-          <Link href="#" className="text-sm text-white/85 hover:text-white transition-opacity">Events</Link>
-        </nav>
-        <Link href="/dashboard" className="flex items-center gap-2.5">
-          <span className="inline-flex items-center justify-center w-[30px] h-[30px] rounded-full bg-gold text-purple-dk font-[var(--font-slab)] font-bold text-lg">W</span>
-          <span className="font-[var(--font-slab)] font-semibold text-lg text-white">Williams Ski Network</span>
-        </Link>
-        <div className="flex items-center gap-[18px]">
-          <Link href="/profile" className="text-sm text-white/85 hover:text-white transition-opacity">Edit Profile</Link>
-          <SignOutButton />
-        </div>
-      </header>
+      {/* header */}
+      <SiteHeader />
 
       {/* hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#3a0068] via-purple-dk to-purple-darker px-10 pt-40 pb-24">
@@ -77,7 +50,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
             <Link href="/directory" className="inline-flex items-center gap-2 bg-gold text-purple-dk font-bold text-[15px] px-[26px] py-[15px] rounded-full shadow-[0_8px_24px_rgba(255,190,10,.25)] hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(255,190,10,.38)] transition-all">
               Browse the Directory →
             </Link>
-            <Link href="#" className="inline-flex items-center bg-transparent text-white font-semibold text-[15px] px-[26px] py-[15px] rounded-full border-[1.5px] border-white/35 hover:bg-white/10 hover:border-white transition-all">
+            <Link href="/blog" className="inline-flex items-center bg-transparent text-white font-semibold text-[15px] px-[26px] py-[15px] rounded-full border-[1.5px] border-white/35 hover:bg-white/10 hover:border-white transition-all">
               Read the Blog
             </Link>
           </div>
@@ -139,16 +112,16 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <div>
         <div className="text-[20px] tracking-[.2em] font-bold text-eyebrow mb-2.5">FROM THE BLOG</div>
       </div>
-      <Link href="#" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
+      <Link href="/blog" className="text-sm font-semibold text-williams-purple border-b-2 border-gold pb-0.5">
         All posts →
       </Link>
     </div>
 
     <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
       {[
-        { cat: 'TRIP REPORT', time: '6 min read', title: 'Chasing Powder in the Bugaboos', byline: "Sarah Mitchell '18 · Mar 12" },
-        { cat: 'CAREER', time: '4 min read', title: 'From the Start Gate to the Boardroom', byline: "Tom Berg '10 · Feb 28" },
-        { cat: 'COACHING', time: '5 min read', title: 'Why I Came Back to Coach the Ephs', byline: "Cooper Iacobelli '26 · Feb 14" },
+        { cat: 'TYPE', time: 'X min read', title: 'TITLE', byline: "AUTHOR 'XX · Month Day" },
+        { cat: 'TYPE', time: 'X min read', title: 'TITLE', byline: "AUTHOR 'XX · Month Day" },
+        { cat: 'TYPE', time: 'X min read', title: 'TITLE', byline: "AUTHOR 'XX · Month Day" },
       ].map((post) => (
         <div key={post.title} className="flex flex-col hover:-translate-y-1 transition-transform duration-300 cursor-pointer">
           <div className="aspect-[16/10] rounded-lg bg-[repeating-linear-gradient(135deg,#efe9f6_0_12px,#e6dcf1_12px_24px)] flex items-center justify-center">
@@ -214,7 +187,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <h4 className="text-xs tracking-[.16em] font-bold text-[#9a7cc4] mb-4">EXPLORE</h4>
       <div className="flex flex-col gap-3">
         <Link href="/directory" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Directory</Link>
-        <Link href="#" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Blog</Link>
+        <Link href="/blog" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Blog</Link>
         <Link href="#" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Events</Link>
         <Link href="#" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Gallery</Link>
       </div>
@@ -223,7 +196,7 @@ export default function DashboardClient({ firstName, teamMembers }: Props) {
       <h4 className="text-xs tracking-[.16em] font-bold text-[#9a7cc4] mb-4">ACCOUNT</h4>
       <div className="flex flex-col gap-3">
         <Link href="/profile" className="text-[15px] text-[#e3d6f4] hover:text-gold transition-colors">Edit Profile</Link>
-        <SignOutButton />
+        <SignOutButton variant="footer" />
       </div>
     </div>
   </div>
